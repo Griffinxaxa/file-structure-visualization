@@ -7,6 +7,8 @@ function App() {
   const [tree, setTree] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [darkMode, setDarkMode] = useState(false)
+  const [showCopyNotification, setShowCopyNotification] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,7 +17,7 @@ function App() {
     setTree('')
 
     try {
-      const response = await axios.post('http://localhost:3001/api/tree', { repoUrl })
+      const response = await axios.post('/api/tree', { repoUrl })
       setTree(response.data.tree)
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred')
@@ -24,9 +26,33 @@ function App() {
     }
   }
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(tree)
+      .then(() => {
+        setShowCopyNotification(true)
+        setTimeout(() => setShowCopyNotification(false), 2000)
+      })
+      .catch(err => {
+        console.error('Failed to copy:', err)
+      })
+  }
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+    document.documentElement.classList.toggle('dark-mode')
+  }
+
   return (
-    <div className="container">
-      <h1>GitHub Repo Tree Visualizer</h1>
+    <div className={`container ${darkMode ? 'dark' : 'light'}`}>
+      <div className="header">
+        <h1>GitHub Repo Tree Visualizer</h1>
+        <button 
+          className="theme-toggle"
+          onClick={toggleDarkMode}
+        >
+          {darkMode ? '☀️' : '🌙'}
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -44,8 +70,22 @@ function App() {
       
       {tree && (
         <div className="tree-container">
-          <h2>Repository Structure:</h2>
+          <div className="tree-header">
+            <h2>Repository Structure:</h2>
+            <button 
+              className="copy-button"
+              onClick={copyToClipboard}
+            >
+              📋 Copy
+            </button>
+          </div>
           <pre>{tree}</pre>
+        </div>
+      )}
+
+      {showCopyNotification && (
+        <div className="copy-notification">
+          Copied to clipboard!
         </div>
       )}
     </div>

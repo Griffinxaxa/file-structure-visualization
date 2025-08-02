@@ -1,0 +1,27 @@
+{
+  "name": "github-repo-tree-visualizer",
+  "version": "1.0.0",
+  "description": "A tool to visualize GitHub repository file structures",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "build": "cd frontend && npm install && npm run build && cp -r dist/* ../",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "node backend/index.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "postinstall": "cd frontend && npm install"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "rimraf": "^6.0.1",
+    "simple-git": "^3.28.0",
+    "treeify": "^1.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
