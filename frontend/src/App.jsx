@@ -53,16 +53,25 @@ function App() {
           {darkMode ? '☀️' : '🌙'}
         </button>
       </div>
+      
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={repoUrl}
-          onChange={(e) => setRepoUrl(e.target.value)}
-          placeholder="Enter GitHub repo URL (e.g., https://github.com/username/repo)"
-          required
-        />
+        <div className="input-group">
+          <label className="input-label">
+            Enter a GitHub repository URL to visualize its file structure
+          </label>
+          <input
+            type="text"
+            value={repoUrl}
+            onChange={(e) => setRepoUrl(e.target.value)}
+            placeholder="e.g., https://github.com/username/repository"
+            required
+          />
+          <small style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem', textAlign: 'center' }}>
+            Format: github.com/username/repo or https://github.com/username/repo
+          </small>
+        </div>
         <button type="submit" disabled={loading}>
-          {loading ? 'Loading...' : 'Generate Tree'}
+          {loading ? 'Generating Tree...' : 'Generate Tree'}
         </button>
       </form>
       
@@ -76,7 +85,7 @@ function App() {
               className="copy-button"
               onClick={copyToClipboard}
             >
-              📋 Copy
+              📋 Copy Tree
             </button>
           </div>
           <pre>{tree}</pre>
@@ -85,9 +94,38 @@ function App() {
 
       {showCopyNotification && (
         <div className="copy-notification">
-          Copied to clipboard!
+          Copied to clipboard! 📋
         </div>
       )}
+
+      <div className="info-section">
+        <h3>About This Tool</h3>
+        <p>
+          The GitHub Repo Tree Visualizer helps you explore and understand the file structure of any public GitHub repository. 
+          Simply enter a repository URL and get an instant visual representation of its directory structure.
+        </p>
+        
+        <h3>How to Use</h3>
+        <ul>
+          <li><strong>Enter Repository URL:</strong> Use the format <code>github.com/username/repo</code> or the full HTTPS URL</li>
+          <li><strong>Generate Tree:</strong> Click the button to create a visual representation of the repository structure</li>
+          <li><strong>Copy & Share:</strong> Use the copy button to save the tree structure to your clipboard</li>
+          <li><strong>Toggle Theme:</strong> Switch between light and dark modes using the theme button</li>
+        </ul>
+        
+        <h3>Features</h3>
+        <ul>
+          <li><strong>🌳 Visual Tree Structure:</strong> See the complete file hierarchy at a glance</li>
+          <li><strong>📋 Easy Copy:</strong> Copy the entire tree structure with one click</li>
+          <li><strong>🌙 Dark Mode:</strong> Comfortable viewing in any lighting condition</li>
+          <li><strong>📱 Responsive Design:</strong> Works perfectly on desktop, tablet, and mobile</li>
+          <li><strong>⚡ Fast & Reliable:</strong> Quick generation using shallow Git cloning</li>
+        </ul>
+        
+        <p style={{ marginTop: '20px', fontSize: '0.9rem', opacity: 0.8 }}>
+          Perfect for documentation, code reviews, project exploration, and understanding repository organization.
+        </p>
+      </div>
     </div>
   )
 }
