@@ -68,10 +68,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Backend listening on port ${PORT}`);
-  });
-}
+// Always start the server
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 module.exports = app; 
