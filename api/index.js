@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the root directory (for deployed frontend)
+app.use(express.static(path.join(__dirname, '..')));
+
 // Helper: Recursively build a tree object from a directory
 function buildTree(dirPath) {
   const stats = fs.statSync(dirPath);
@@ -58,6 +61,11 @@ app.post('/api/tree', async (req, res) => {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// Serve index.html for the root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 if (process.env.NODE_ENV !== 'production') {

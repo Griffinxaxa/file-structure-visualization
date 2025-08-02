@@ -63,8 +63,8 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Serve index.html for all non-API routes (SPA routing)
-app.get('*', (req, res) => {
+// Serve index.html for the root path
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
