@@ -9,6 +9,7 @@ function App() {
   const [error, setError] = useState('')
   const [darkMode, setDarkMode] = useState(false)
   const [showCopyNotification, setShowCopyNotification] = useState(false)
+  const [excludeGitFiles, setExcludeGitFiles] = useState(true)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -17,7 +18,10 @@ function App() {
     setTree('')
 
     try {
-      const response = await axios.post('/api/tree', { repoUrl })
+      const response = await axios.post('/api/tree', { 
+        repoUrl, 
+        excludeGitFiles 
+      })
       setTree(response.data.tree)
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred')
@@ -71,6 +75,18 @@ function App() {
               Use link format 'github.com/name/repo'
             </small>
           </div>
+          
+          <div className="options-group">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={excludeGitFiles}
+                onChange={(e) => setExcludeGitFiles(e.target.checked)}
+              />
+              <span>Exclude .git files and folders</span>
+            </label>
+          </div>
+          
           <button type="submit" disabled={loading}>
             {loading ? 'Generating Tree...' : 'Generate Tree'}
           </button>
