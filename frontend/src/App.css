@@ -86,15 +86,13 @@ form {
 
 .options-group {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
   margin: 10px 0;
+  flex-wrap: wrap;
 }
 
-.checkbox-row {
-  display: flex;
-  justify-content: center;
-}
 
 .checkbox-label {
   display: flex;
@@ -112,6 +110,31 @@ form {
   padding: 0;
   cursor: pointer;
   accent-color: #333;
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background-color: #333;
+  border-color: #333;
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .checkbox-label span {
@@ -335,7 +358,18 @@ body.dark-mode {
 }
 
 .dark-mode .checkbox-label input[type="checkbox"] {
+  background-color: #2a2a2a;
+  border-color: #555;
   accent-color: #e0e0e0;
+}
+
+.dark-mode .checkbox-label input[type="checkbox"]:checked {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
+.dark-mode .checkbox-label input[type="checkbox"]:checked::after {
+  color: #333;
 }
 
 /* Responsive design */
@@ -347,6 +381,11 @@ body.dark-mode {
   .header {
     flex-direction: column;
     gap: 15px;
+  }
+  
+  .options-group {
+    flex-direction: column;
+    gap: 12px;
   }
   
   .tree-header {

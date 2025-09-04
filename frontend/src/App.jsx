@@ -81,36 +81,30 @@ function App() {
           </div>
           
           <div className="options-group">
-            <div className="checkbox-row">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={excludeGitFiles}
-                  onChange={(e) => setExcludeGitFiles(e.target.checked)}
-                />
-                <span>Exclude .git files and folders</span>
-              </label>
-            </div>
-            <div className="checkbox-row">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={excludeAssetsContents}
-                  onChange={(e) => setExcludeAssetsContents(e.target.checked)}
-                />
-                <span>Hide assets folder contents</span>
-              </label>
-            </div>
-            <div className="checkbox-row">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={excludeImagesContents}
-                  onChange={(e) => setExcludeImagesContents(e.target.checked)}
-                />
-                <span>Hide images folder contents</span>
-              </label>
-            </div>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={excludeGitFiles}
+                onChange={(e) => setExcludeGitFiles(e.target.checked)}
+              />
+              <span>Exclude .git files and folders</span>
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={excludeAssetsContents}
+                onChange={(e) => setExcludeAssetsContents(e.target.checked)}
+              />
+              <span>Hide assets folder contents</span>
+            </label>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={excludeImagesContents}
+                onChange={(e) => setExcludeImagesContents(e.target.checked)}
+              />
+              <span>Hide images folder contents</span>
+            </label>
           </div>
           
           <button type="submit" disabled={loading}>
