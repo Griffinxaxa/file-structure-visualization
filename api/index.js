@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..')));
 
 // Helper: Recursively build a tree object from a directory
-function buildTree(dirPath, excludeGitFiles = true) {
+function buildTree(dirPath, excludeGitFiles = true, excludeAssetsContents = true, excludeImagesContents = true) {
   const stats = fs.statSync(dirPath);
   if (!stats.isDirectory()) return path.basename(dirPath);
   const tree = {};
@@ -31,7 +31,12 @@ function buildTree(dirPath, excludeGitFiles = true) {
     const fullPath = path.join(dirPath, file);
     const fileStats = fs.statSync(fullPath);
     if (fileStats.isDirectory()) {
-      tree[file] = buildTree(fullPath, excludeGitFiles);
+      // For assets and images folders, show the folder but hide contents if requested
+      if ((excludeAssetsContents && file === 'assets') || (excludeImagesContents && file === 'images')) {
+        tree[file] = '[contents hidden]';
+      } else {
+        tree[file] = buildTree(fullPath, excludeGitFiles, excludeAssetsContents, excludeImagesContents);
+      }
     } else {
       tree[file] = null;
     }
@@ -40,7 +45,7 @@ function buildTree(dirPath, excludeGitFiles = true) {
 }
 
 app.post('/api/tree', async (req, res) => {
-  const { repoUrl, excludeGitFiles = true } = req.body;
+  const { repoUrl, excludeGitFiles = true, excludeAssetsContents = true, excludeImagesContents = true } = req.body;
   if (!repoUrl) return res.status(400).json({ error: 'Missing repoUrl' });
 
   // Create a temp dir
@@ -52,7 +57,7 @@ app.post('/api/tree', async (req, res) => {
     // Shallow clone
     await simpleGit().clone(repoUrl, repoPath, ['--depth', '1']);
     // Build tree
-    const treeObj = buildTree(repoPath, excludeGitFiles);
+    const treeObj = buildTree(repoPath, excludeGitFiles, excludeAssetsContents, excludeImagesContents);
     const asciiTree = treeify.asTree(treeObj, true);
     // Cleanup
     rimraf.sync(tempDir);

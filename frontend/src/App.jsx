@@ -10,6 +10,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(false)
   const [showCopyNotification, setShowCopyNotification] = useState(false)
   const [excludeGitFiles, setExcludeGitFiles] = useState(true)
+  const [excludeAssetsContents, setExcludeAssetsContents] = useState(true)
+  const [excludeImagesContents, setExcludeImagesContents] = useState(true)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,7 +22,9 @@ function App() {
     try {
       const response = await axios.post('/api/tree', { 
         repoUrl, 
-        excludeGitFiles 
+        excludeGitFiles,
+        excludeAssetsContents,
+        excludeImagesContents
       })
       setTree(response.data.tree)
     } catch (err) {
@@ -77,14 +81,36 @@ function App() {
           </div>
           
           <div className="options-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={excludeGitFiles}
-                onChange={(e) => setExcludeGitFiles(e.target.checked)}
-              />
-              <span>Exclude .git files and folders</span>
-            </label>
+            <div className="checkbox-row">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={excludeGitFiles}
+                  onChange={(e) => setExcludeGitFiles(e.target.checked)}
+                />
+                <span>Exclude .git files and folders</span>
+              </label>
+            </div>
+            <div className="checkbox-row">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={excludeAssetsContents}
+                  onChange={(e) => setExcludeAssetsContents(e.target.checked)}
+                />
+                <span>Hide assets folder contents</span>
+              </label>
+            </div>
+            <div className="checkbox-row">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={excludeImagesContents}
+                  onChange={(e) => setExcludeImagesContents(e.target.checked)}
+                />
+                <span>Hide images folder contents</span>
+              </label>
+            </div>
           </div>
           
           <button type="submit" disabled={loading}>
