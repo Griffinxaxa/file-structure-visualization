@@ -69,4 +69,4 @@ npm run dev
 
 ## License
 
-MIT 
+idk
